@@ -2,23 +2,26 @@ import { createRouter, createWebHistory } from 'vue-router';
 import Home from '../views/Home.vue';
 
 const routes = [
-  {
-    path: '/',
-    name: 'Home',
-    component: Home,
-  },
-  {
-    path: '/proyectos',
-    name: 'Projects',
-    // Lazy loading para cargar el componente solo cuando se acceda a la ruta
-    component: () => import('../views/Projects.vue'),
-  },
-];
+    { path: '/', component: Home },
+    { path: '/proyectos', component: () => import('../views/Projects.vue') },
+    { path: '/sobre-mi', component: () => import('../views/About.vue') },
+    { path: '/cv', component: () => import('../views/CV.vue') },
+    { path: '/contacto', component: () => import('../views/Contact.vue') },
+  ];
 
 // Crea la instancia del router
 const router = createRouter({
-  history: createWebHistory(), // Modo de historial HTML5 (URLs limpias, sin "#")
-  routes, 
+    history: createWebHistory(),
+    routes,
+    scrollBehavior(to, from, savedPosition) {
+      if (to.hash) {
+        return {
+          el: to.hash,
+          behavior: 'smooth',
+        };
+      }
+      return { top: 0, behavior: 'smooth' };
+    },
 });
 
 export default router; // Exporta el router para usarlo en main.js

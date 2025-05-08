@@ -1,25 +1,9 @@
 <script setup>
 import { RouterView } from 'vue-router';
+import Navbar from './components/Navbar.vue';
 </script>
 
 <template>
-  <RouterView />
+  <Navbar />
+  <RouterView class="pt-16 min-h-screen" />
 </template>
-
-<style>
-body {
-  margin: 0;
-  font-family: 'Arial', sans-serif;
-  background-color: #f8f9fa; /* Fondo claro por defecto */
-}
-
-/* Si quieres animaciones al cambiar de ruta */
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.5s ease;
-}
-.fade-enter-from,
-.fade-leave-to {
-  opacity: 0;
-}
-</style>
