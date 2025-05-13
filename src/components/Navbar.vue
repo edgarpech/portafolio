@@ -1,9 +1,9 @@
 <template>
-  <nav class="fixed w-full z-50 transition-all duration-300 px-4 bg-white">
+  <nav class="fixed w-full z-50 transition-all duration-300 px-4 bg-white mt-3">	
     <div class="max-w-6xl mx-auto flex justify-center h-16 items-center">
       <div class="menu">
         <router-link v-for="link in links" :key="link.path" :to="link.path" class="link"
-          :class="{ 'text-green-500 font-medium': isActive(link.path) }">
+          :class="{ 'menu-active': isActive(link.path) }">
           <span class="link-icon" v-html="link.icon"></span>
           <span class="link-title">{{ link.name }}</span>
         </router-link>
@@ -75,6 +75,7 @@ const isActive = (path) => {
   transition: width 0.2s ease-in;
   text-decoration: none;
   color: black;
+  margin: 0 0.2rem;
 }
 
 .link:before {
@@ -93,22 +94,25 @@ const isActive = (path) => {
 }
 
 .link:hover,
-.link:focus {
+.link:focus,
+.link.menu-active {
   outline: 0;
-  width: 130px;
+  width: 160px;
 }
 
 .link:hover:before,
 .link:focus:before,
+.link.menu-active:before,
 .link:hover .link-title,
-.link:focus .link-title {
+.link:focus .link-title,
+.link.menu-active .link-title {
   transform: translateX(0);
   opacity: 1;
 }
 
 .link-icon {
-  width: 20px;
-  height: 20px;
+  width: 24px;
+  height: 24px;
   display: block;
   flex-shrink: 0;
   left: 18px;

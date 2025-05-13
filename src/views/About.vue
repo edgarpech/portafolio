@@ -5,7 +5,7 @@
           class="text-4xl font-bold mt-10 mb-8 text-center text-gray-800"
           data-aos="fade-up"
         >
-          Sobre Mí
+          Sobre mí
         </h2>
         <div class="grid md:grid-cols-2 gap-8 items-center">
           <div data-aos="fade-in">
