@@ -1,11 +1,5 @@
 @import "tailwindcss";
 
-/* Opcional: Personalización mínima */
-@layer base {
-  html {
-    @apply scroll-smooth; /* Para scroll suave */
-  }
-  body {
-    @apply bg-white text-gray-800; /* Fondo blanco y texto oscuro por defecto */
-  }
+body {
+  background-color: rgb(27, 114, 190);
 }

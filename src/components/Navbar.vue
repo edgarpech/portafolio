@@ -1,7 +1,7 @@
 <template>
   <nav class="fixed w-full z-50 transition-all duration-300 px-4 bg-white mt-3">	
-    <div class="max-w-6xl mx-auto flex justify-center h-16 items-center">
-      <div class="menu">
+    <div class="max-w-6xl mx-auto flex flex-wrap justify-center h-auto items-center">
+      <div class="menu w-full sm:w-auto flex justify-center">
         <router-link v-for="link in links" :key="link.path" :to="link.path" class="link"
           :class="{ 'menu-active': isActive(link.path) }">
           <span class="link-icon" v-html="link.icon"></span>
@@ -127,5 +127,13 @@ const isActive = (path) => {
   text-align: center;
   text-indent: 28px;
   width: 100%;
+  font-size: 1rem; /* Tamaño de fuente predeterminado */
+}
+
+/* Ajustes para dispositivos móviles */
+@media (max-width: 640px) {
+  .link-title {
+    font-size: 0.7rem; /* Reducir tamaño de fuente en móviles */
+  }
 }
 </style>

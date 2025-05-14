@@ -9,8 +9,8 @@ const app = createApp(App);
 app.use(router); 
 app.mount('#app'); // Monta la aplicación
 
-// Inicializa AOS (Animate On Scroll)
+// Inicializa AOS
 AOS.init({
-    duration: 1000,
-    once: true,
-  });
+  duration: 1000,
+  once: true,
+});
