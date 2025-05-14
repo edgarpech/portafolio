@@ -1,5 +1,5 @@
 <template>
-  <section class="pt-16 min-h-screen">
+  <section class="pt-16">
     <h2 class="text-4xl font-bold mb-8 text-center">Mi CV</h2>
     <div class="flex justify-center">
       <a 

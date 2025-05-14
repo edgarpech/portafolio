@@ -1,5 +1,5 @@
 <template>
-    <section class="pt-16 min-h-screen">
+    <section class="pt-16">
         <div>
             <h1 
                 class="text-4xl font-bold text-center mt-10 mb-5 text-gray-800" 

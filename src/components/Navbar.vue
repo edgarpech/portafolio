@@ -1,5 +1,5 @@
 <template>
-  <nav class="fixed w-full z-50 transition-all duration-300 px-4 bg-white mt-3">	
+  <nav class="fixed w-full z-50 transition-all duration-300 px-4 mt-3">	
     <div class="max-w-6xl mx-auto flex flex-wrap justify-center h-auto items-center">
       <div class="menu w-full sm:w-auto flex justify-center">
         <router-link v-for="link in links" :key="link.path" :to="link.path" class="link"
