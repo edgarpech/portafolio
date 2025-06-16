@@ -7,20 +7,20 @@ const routes = [
     { path: '/sobre-mi', component: () => import('../views/About.vue') },
     { path: '/cv', component: () => import('../views/CV.vue') },
     { path: '/contacto', component: () => import('../views/Contact.vue') },
-  ];
+];
 
 // Crea la instancia del router
 const router = createRouter({
     history: createWebHistory(),
     routes,
     scrollBehavior(to, from, savedPosition) {
-      if (to.hash) {
-        return {
-          el: to.hash,
-          behavior: 'smooth',
-        };
-      }
-      return { top: 0, behavior: 'smooth' };
+        if (to.hash) {
+            return {
+                el: to.hash,
+                behavior: 'smooth',
+            };
+        }
+        return { top: 0, behavior: 'smooth' };
     },
 });
 
