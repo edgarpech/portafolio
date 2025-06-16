@@ -183,7 +183,7 @@ onMounted(() => {
             
             <!-- Contenido principal -->
             <div class="book-content text-gray-300 h-full flex flex-col p-6">
-              <h3 class="text-xl font-semibold mb-4 text-indigo-400">{{ pages[currentPage].title }}</h3>
+              <h3 class="text-xl font-semibold mb-12 text-indigo-400">{{ pages[currentPage].title }}</h3>
               
               <!-- Contenido de texto simple -->
               <div v-if="pages[currentPage].type !== 'tech-grid'" class="flex-grow overflow-y-auto pr-2 scrollbar-custom">
