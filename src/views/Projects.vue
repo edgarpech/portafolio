@@ -164,6 +164,18 @@
         };
     }
 
+    // Función para animación de entrada
+    function animatePageIn() {
+        gsap.from(".itemList", {
+            duration: 1.2,
+            y: 40,
+            opacity: 0,
+            stagger: 0.15,
+            ease: "power3.out",
+            delay: 0.3
+        });
+    }
+
     onMounted(async () => {
         await nextTick();
         
@@ -207,6 +219,8 @@
         
         // Actualizar en caso de redimensionamiento
         window.addEventListener('resize', initDraggable);
+
+        animatePageIn();
     });
 </script>
 
@@ -219,7 +233,7 @@
                 <div class="relative">
                     <div ref="bookContent" class="w-full h-[32rem] relative overflow-hidden">
                         <div class="h-full flex flex-col justify-center sm:p-6">
-                            <ul ref="itemList" class="flex p-0 m-0 list-none gap-2 cursor-grab touch-action-pan-y justify-evenly">
+                            <ul ref="itemList" class="itemList flex p-0 m-0 list-none gap-2 cursor-grab touch-action-pan-y justify-evenly">
                                 <li class="item flex flex-col justify-between items-center relative w-60 h-80 rounded-xl bg-white shadow-md shrink-0 transition-transform duration-200 will-change-transform overflow-hidden p-6 box-border"
                                 v-for="(project, index) in projects" 
                                 :key="index">
