@@ -13,31 +13,72 @@ const formData = ref({
   message: ''
 })
 
-// Form submission
-const submitForm = () => {
-  // Animation when submitting
-  const tl = gsap.timeline()
-  tl.to('.submit-btn', {
-    scale: 0.9,
-    duration: 0.1,
-    ease: 'power2.in'
-  })
-  tl.to('.submit-btn', {
-    scale: 1,
-    duration: 0.3,
-    ease: 'elastic.out(1, 0.5)'
-  })
-  
-  // Here you would normally send the form data to your backend
-  console.log('Form submitted:', formData.value)
-  
-  // Reset form
-  formData.value = {
-    firstName: '',
-    lastName: '',
-    email: '',
-    phone: '',
-    message: ''
+const submitStatus = ref(null)
+const submitMessage = ref('')
+
+const submitForm = async () => {
+  const form = new FormData()
+  form.append('form-name', 'contact')
+  form.append('firstName', formData.value.firstName)
+  form.append('lastName', formData.value.lastName)
+  form.append('email', formData.value.email)
+  form.append('message', formData.value.message)
+
+  const btn = document.querySelector('.submit-btn')
+
+  try {
+    await fetch('/', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: new URLSearchParams(form).toString()
+    })
+
+    // Success animation (green)
+    gsap.to(btn, {
+      backgroundColor: '#28a745',
+      scale: 0.95,
+      duration: 0.2,
+      ease: 'power2.in',
+      onComplete: () => {
+        gsap.to(btn, {
+          backgroundColor: '#2563eb', // Tailwind blue-600
+          scale: 1,
+          duration: 0.4,
+          ease: 'elastic.out(1, 0.5)'
+        })
+      }
+    })
+
+    formData.value = { firstName: '', lastName: '', email: '', phone: '', message: '' }
+    submitStatus.value = 'success'
+    submitMessage.value = '¡Enviado correctamente!'
+    setTimeout(() => {
+      submitStatus.value = null
+      submitMessage.value = ''
+    }, 3000)
+  } catch (error) {
+    // Error animation (red)
+    gsap.to(btn, {
+      backgroundColor: '#dc3545',
+      scale: 0.95,
+      duration: 0.2,
+      ease: 'power2.in',
+      onComplete: () => {
+        gsap.to(btn, {
+          backgroundColor: '#2563eb',
+          scale: 1,
+          duration: 0.4,
+          ease: 'elastic.out(1, 0.5)'
+        })
+      }
+    })
+
+    submitStatus.value = 'error'
+    submitMessage.value = 'No se pudo enviar el mensaje'
+    setTimeout(() => {
+      submitStatus.value = null
+      submitMessage.value = ''
+    }, 3000)
   }
 }
 
@@ -190,12 +231,17 @@ onMounted(() => {
             <div class="contact-form backdrop-blur-xs rounded-xl p-8 shadow-lg border border-white/20">
               <h3 class="text-2xl font-semibold mb-6 text-white">Envíame un mensaje</h3>
               
-              <form @submit.prevent="submitForm" class="space-y-5">
+              <form @submit.prevent="submitForm" name="contact" netlify netlify-honeypot="bot-field" class="space-y-5">
+                <input type="hidden" name="form-name" value="contact" />
+                <p class="hidden">
+                  <label>No llenar: <input name="bot-field" /></label>
+                </p>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
                   <div>
                     <label for="firstName" class="block text-sm font-medium text-gray-300 mb-1">Nombre</label>
                     <input 
                       v-model="formData.firstName"
+                      name="firstName"
                       type="text" 
                       id="firstName" 
                       class="form-input w-full bg-white/10 border border-white/20 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
@@ -207,6 +253,7 @@ onMounted(() => {
                     <label for="lastName" class="block text-sm font-medium text-gray-300 mb-1">Apellido</label>
                     <input 
                       v-model="formData.lastName"
+                      name="lastName"
                       type="text" 
                       id="lastName" 
                       class="form-input w-full bg-white/10 border border-white/20 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
@@ -219,6 +266,7 @@ onMounted(() => {
                   <label for="email" class="block text-sm font-medium text-gray-300 mb-1">Correo</label>
                   <input 
                     v-model="formData.email"
+                    name="email"
                     type="email" 
                     id="email" 
                     autocomplete="email"
@@ -231,6 +279,7 @@ onMounted(() => {
                   <label for="message" class="block text-sm font-medium text-gray-300 mb-1">Mensaje</label>
                   <textarea 
                     v-model="formData.message"
+                    name="message"
                     id="message" 
                     rows="4"
                     class="form-input w-full bg-white/10 border border-white/20 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"

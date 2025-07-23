@@ -24,11 +24,11 @@
 export default {
   data() {
     return {
-      cvPath: null // Initialize cvPath as null
+      cvPath: null 
     };
   },
   created() {
-    this.cvPath = '/cv.pdf'; // Use the public folder path for the CV
+    this.cvPath = '/cv.pdf';
   }
 };
 </script>
