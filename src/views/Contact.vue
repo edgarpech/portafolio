@@ -4,15 +4,6 @@ import gsap from 'gsap'
 
 const particlesLoaded = container => {}
 
-// Form data ref
-const formData = ref({
-  firstName: '',
-  lastName: '',
-  email: '',
-  phone: '',
-  message: ''
-})
-
 // Initialize animations when component mounts
 onMounted(() => {
   // Initial animation
@@ -162,7 +153,7 @@ onMounted(() => {
             <div class="contact-form backdrop-blur-xs rounded-xl p-8 shadow-lg border border-white/20">
               <h3 class="text-2xl font-semibold mb-6 text-white">Envíame un mensaje</h3>
               
-              <form @submit.prevent="submitForm" name="contact" netlify netlify-honeypot="bot-field" class="space-y-5">
+              <form name="contact" netlify class="space-y-5">
                 <input type="hidden" name="form-name" value="contact" />
                 <p class="hidden">
                   <label>No llenar: <input name="bot-field" /></label>
@@ -170,8 +161,7 @@ onMounted(() => {
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
                   <div>
                     <label for="firstName" class="block text-sm font-medium text-gray-300 mb-1">Nombre</label>
-                    <input 
-                      v-model="formData.firstName"
+                    <input
                       name="firstName"
                       type="text" 
                       id="firstName" 
@@ -182,8 +172,7 @@ onMounted(() => {
                   
                   <div>
                     <label for="lastName" class="block text-sm font-medium text-gray-300 mb-1">Apellido</label>
-                    <input 
-                      v-model="formData.lastName"
+                    <input
                       name="lastName"
                       type="text" 
                       id="lastName" 
@@ -196,7 +185,6 @@ onMounted(() => {
                 <div>
                   <label for="email" class="block text-sm font-medium text-gray-300 mb-1">Correo</label>
                   <input 
-                    v-model="formData.email"
                     name="email"
                     type="email" 
                     id="email" 
@@ -208,8 +196,7 @@ onMounted(() => {
                 
                 <div>
                   <label for="message" class="block text-sm font-medium text-gray-300 mb-1">Mensaje</label>
-                  <textarea 
-                    v-model="formData.message"
+                  <textarea
                     name="message"
                     id="message" 
                     rows="4"
