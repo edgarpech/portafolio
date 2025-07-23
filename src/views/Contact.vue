@@ -153,7 +153,7 @@ onMounted(() => {
             <div class="contact-form backdrop-blur-xs rounded-xl p-8 shadow-lg border border-white/20">
               <h3 class="text-2xl font-semibold mb-6 text-white">Envíame un mensaje</h3>
               
-              <form name="contact" method="POST" data-netlify="true" action="/" class="space-y-5">
+              <form name="contact" netlify class="space-y-5">
                <input type="hidden" name="form-name" value="contact" />
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
                   <div>
