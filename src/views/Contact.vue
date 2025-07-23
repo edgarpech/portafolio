@@ -153,9 +153,14 @@ onMounted(() => {
             <div class="contact-form backdrop-blur-xs rounded-xl p-8 shadow-lg border border-white/20">
               <h3 class="text-2xl font-semibold mb-6 text-white">Envíame un mensaje</h3>
               
-              <form name="contact" method="POST" data-netlify="true" class="space-y-5">
-               <input type="hidden" name="form-name" value="contact" />
-               <input type="hidden" name="redirect" value="/Thankyou" />
+              <form name="contact" method="POST" data-netlify="true" class="space-y-5" action="/Thankyou">
+                <input type="hidden" name="form-name" value="contact" />
+                <input type="hidden" name="redirect" value="/Thankyou" />
+                
+                <!-- Hidden field to prevent spam -->
+                <p class="hidden">
+                  <label>No llenar: <input name="bot-field" /></label>
+                </p>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
                   <div>
                     <label for="firstName" class="block text-sm font-medium text-gray-300 mb-1">Nombre</label>
