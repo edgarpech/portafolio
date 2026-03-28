@@ -3,7 +3,7 @@
         <div class="navbar-inner">
             <router-link v-for="link in links" :key="link.path" :to="link.path" class="nav-link"
                 :class="{ 'nav-active': isActive(link.path) }">
-                <span class="nav-icon" v-html="link.icon"></span>
+                <component :is="link.icon" class="nav-icon" :size="20" :stroke-width="1.75" />
                 <span class="nav-label">{{ link.name }}</span>
             </router-link>
         </div>
@@ -13,31 +13,16 @@
 <script setup>
     import { ref, onMounted, onUnmounted } from 'vue';
     import { useRoute } from 'vue-router';
+    import { House, UserRound, FolderKanban, Send } from 'lucide-vue-next';
 
     const route = useRoute();
     const isScrolled = ref(false);
 
     const links = [
-        {
-            path: '/',
-            name: 'Inicio',
-            icon: `<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" viewBox="0 0 256 256"><rect width="256" height="256" fill="none"></rect><path d="M213.3815,109.61945,133.376,36.88436a8,8,0,0,0-10.76339.00036l-79.9945,72.73477A8,8,0,0,0,40,115.53855V208a8,8,0,0,0,8,8H208a8,8,0,0,0,8-8V115.53887A8,8,0,0,0,213.3815,109.61945Z" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></path></svg>`
-        },
-        {
-            path: '/sobre-mi',
-            name: 'Sobre mí',
-            icon: `<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" viewBox="0 0 256 256"><rect width="256" height="256" fill="none"></rect><circle cx="128" cy="96" r="64" fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="16"></circle><path d="M30.989,215.99064a112.03731,112.03731,0,0,1,194.02311.002" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></path></svg>`
-        },
-        {
-            path: '/proyectos',
-            name: 'Proyectos',
-            icon: `<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="none" viewBox="0 0 256 256" stroke="currentColor" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"><path d="M224 88V200a8 8 0 0 1-8 8H40a8 8 0 0 1-8-8V56a8 8 0 0 1 8-8h53.33a8 8 0 0 1 4.8 1.6l27.74 20.8a8 8 0 0 0 4.8 1.6H216A8 8 0 0 1 224 88Z"/></svg>`
-        },
-        {
-            path: '/contacto',
-            name: 'Contacto',
-            icon: `<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 16v-4a8 8 0 1 0-16 0v4m16 0v2a2 2 0 0 1-2 2h-2v-6h2a2 2 0 0 1 2 2ZM4 16v2a2 2 0 0 0 2 2h2v-6H6a2 2 0 0 0-2 2Z"/></svg>`
-        }
+        { path: '/', name: 'Inicio', icon: House },
+        { path: '/sobre-mi', name: 'Sobre mí', icon: UserRound },
+        { path: '/proyectos', name: 'Proyectos', icon: FolderKanban },
+        { path: '/contacto', name: 'Contacto', icon: Send }
     ];
 
     const isActive = (path) => {
@@ -116,8 +101,6 @@
     }
 
     .nav-icon {
-        width: 22px;
-        height: 22px;
         display: flex;
         align-items: center;
         justify-content: center;

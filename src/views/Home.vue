@@ -143,7 +143,7 @@
                 </svg>
             </div>
 
-            <p class="text-lg mb-8 text-gray-300 text-container w-full max-w-md mx-auto" data-aos="fade-right" data-aos-delay="200">
+            <p class="text-lg mb-8 text-gray-300 text-container w-full max-w-md mx-auto min-h-[3.5rem]" data-aos="fade-right" data-aos-delay="200">
                 Experto en desarrollo web Backend y Frontend.
             </p>
 
