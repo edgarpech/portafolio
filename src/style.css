@@ -1,1 +1,24 @@
 @import "tailwindcss";
+
+html, body {
+    overflow-x: hidden;
+}
+
+.page-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Particles as fixed background — never takes layout space */
+#tsparticles {
+    position: fixed !important;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+}
+
+.page-content > section {
+    position: relative;
+    z-index: 1;
+}

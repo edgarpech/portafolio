@@ -1,5 +1,6 @@
 <template>
-  <section class="pt-16">
+  <div class="page-content">
+    <section class="flex-1 pt-20 sm:pt-24 px-4 pb-8">
     <h2 class="text-4xl font-bold mb-8 text-center">Mi CV</h2>
     <div class="flex justify-center">
       <a 
@@ -17,7 +18,8 @@
         data-aos="zoom-in"
       ></iframe>
     </div>
-  </section>
+    </section>
+  </div>
 </template>
 
 <script>

@@ -63,16 +63,24 @@ onMounted(() => {
 </script>
 
 <template>
-  <div>
+  <div class="page-content">
     <vue-particles id="tsparticles" @particles-loaded="particlesLoaded" url="/particles.json"/>
     
-    <section class="min-h-screen flex flex-col justify-center items-center pt-26 md:pt-24 sm:pt-20 px-4">
-      <div class="container mx-auto">
-        <div class="relative">
-          <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-6xl mx-auto">
+    <section class="pt-4 sm:pt-24 px-4 pb-8">
+      <div class="container mx-auto max-w-5xl">
+        <div class="text-center mb-8">
+          <h2 class="text-3xl sm:text-4xl font-bold text-white mb-2">Contacto</h2>
+          <p class="text-slate-400 text-sm sm:text-base">¿Tienes un proyecto en mente? Hablemos</p>
+          <div class="inline-flex items-center gap-2 mt-3 bg-emerald-500/10 border border-emerald-500/20 rounded-full px-4 py-1.5">
+            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+            <span class="text-emerald-400 text-xs font-medium">Disponible para proyectos</span>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 max-w-5xl mx-auto">
             <!-- Contact Info Card (Left) -->
-            <div class="contact-card bg-white/10 backdrop-blur-xs rounded-xl p-8 shadow-lg border border-white/20">
-              <h3 class="text-2xl font-semibold mb-6 text-white">Contáctame</h3>
+            <div class="contact-card bg-slate-800/50 backdrop-blur-sm rounded-2xl p-6 sm:p-8 border border-slate-700/30">
+              <h3 class="text-xl font-semibold mb-5 text-white">Contáctame</h3>
               
               <div class="space-y-5">
                 <div class="contact-item flex items-start gap-4">
@@ -150,8 +158,8 @@ onMounted(() => {
             </div>
             
             <!-- Contact Form (Right) -->
-            <div class="contact-form backdrop-blur-xs rounded-xl p-8 shadow-lg border border-white/20">
-              <h3 class="text-2xl font-semibold mb-6 text-white">Envíame un mensaje</h3>
+            <div class="contact-form bg-slate-800/50 backdrop-blur-sm rounded-2xl p-6 sm:p-8 border border-slate-700/30">
+              <h3 class="text-xl font-semibold mb-5 text-white">Envíame un mensaje</h3>
               
               <form action="https://formspree.io/f/mkgzjeoy" method="POST" class="space-y-5">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
@@ -203,14 +211,13 @@ onMounted(() => {
                 
                 <button 
                   type="submit" 
-                  class="submit-btn w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg transition-all duration-300 transform"
+                  class="submit-btn w-full bg-indigo-600 hover:bg-indigo-500 text-white font-medium py-2.5 px-4 rounded-lg transition-all duration-300"
                 >
                   Enviar mensaje
                 </button>
               </form>
             </div>
           </div>
-        </div>
       </div>
     </section>
   </div>
