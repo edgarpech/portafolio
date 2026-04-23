@@ -119,7 +119,7 @@
                         </div>
                         <div>
                             <h3>Backend</h3>
-                            <p>PHP, Laravel, MySQL</p>
+                            <p>PHP (Laravel, Yii), MySQL</p>
                         </div>
                     </div>
                     <div class="highlight">
@@ -128,7 +128,7 @@
                         </div>
                         <div>
                             <h3>Frontend</h3>
-                            <p>Vue.js, Tailwind</p>
+                            <p>Vue.js, Tailwind, Bootstrap</p>
                         </div>
                     </div>
                     <div class="highlight">
@@ -137,7 +137,7 @@
                         </div>
                         <div>
                             <h3>Tooling</h3>
-                            <p>Git, GitHub, Jira</p>
+                            <p>Git, Jira, Digital Ocean</p>
                         </div>
                     </div>
                 </div>

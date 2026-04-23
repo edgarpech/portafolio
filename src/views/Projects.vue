@@ -123,9 +123,10 @@
             </div>
         </section>
 
-        <!-- Modal -->
-        <Transition name="modal">
-            <div v-if="selectedProject !== null" class="modal-overlay" @click.self="closeProject">
+        <!-- Modal (teleport para escapar del stacking context) -->
+        <Teleport to="body">
+            <Transition name="modal">
+                <div v-if="selectedProject !== null" class="modal-overlay" @click.self="closeProject">
                 <div class="modal-backdrop" @click="closeProject"></div>
                 <div class="modal-card">
                     <button @click="closeProject" class="modal-close" aria-label="Cerrar">
@@ -173,7 +174,8 @@
                     </div>
                 </div>
             </div>
-        </Transition>
+            </Transition>
+        </Teleport>
     </div>
 </template>
 
@@ -378,7 +380,7 @@
     .modal-overlay {
         position: fixed;
         inset: 0;
-        z-index: 100;
+        z-index: 200;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -431,12 +433,12 @@
     }
 
     .modal-image {
-        height: 14rem;
+        height: 9rem;
         background: var(--bg-surface-2);
         display: flex;
         align-items: center;
         justify-content: center;
-        padding: 1.5rem;
+        padding: 1rem;
     }
 
     .modal-image img {
@@ -453,7 +455,7 @@
     }
 
     .modal-body h2 {
-        font-size: 1.5rem;
+        font-size: 1.125rem;
         font-weight: 700;
         color: var(--text-primary);
         margin: 0;
@@ -487,8 +489,8 @@
 
     .modal-description {
         color: var(--text-secondary);
-        font-size: 0.9375rem;
-        line-height: 1.65;
+        font-size: 0.8125rem;
+        line-height: 1.6;
         margin: 0;
     }
 
@@ -564,6 +566,15 @@
 
         .modal-body {
             padding: 2rem 2rem 2.5rem;
+        }
+
+        .modal-body h2 {
+            font-size: 1.5rem;
+        }
+
+        .modal-description {
+            font-size: 0.9375rem;
+            line-height: 1.65;
         }
     }
 </style>
