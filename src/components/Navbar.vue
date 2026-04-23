@@ -52,7 +52,7 @@
         z-index: 50;
         display: flex;
         justify-content: center;
-        padding: 0.75rem 1rem;
+        padding: 1rem;
         transition: all 0.3s ease;
     }
 
@@ -60,44 +60,49 @@
         display: flex;
         gap: 0.25rem;
         padding: 0.4rem;
-        border-radius: 1rem;
-        background: rgba(255, 255, 255, 0.85);
-        backdrop-filter: blur(16px);
-        -webkit-backdrop-filter: blur(16px);
-        box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
-        border: 1px solid rgba(255, 255, 255, 0.3);
+        border-radius: 999px;
+        background: rgba(19, 19, 26, 0.7);
+        backdrop-filter: blur(20px) saturate(180%);
+        -webkit-backdrop-filter: blur(20px) saturate(180%);
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        transition: all 0.3s ease;
     }
 
     .navbar-scrolled .navbar-inner {
-        background: rgba(255, 255, 255, 0.95);
-        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+        background: rgba(10, 10, 15, 0.85);
+        border-color: rgba(255, 255, 255, 0.1);
+        box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
     }
 
     .nav-link {
+        position: relative;
         display: flex;
         align-items: center;
         justify-content: center;
         gap: 0.5rem;
         padding: 0.5rem 1.1rem;
-        border-radius: 0.75rem;
-        color: #64748b;
+        border-radius: 999px;
+        color: #a1a1aa;
         text-decoration: none;
-        transition: all 0.25s ease;
+        transition: color 0.25s ease, background 0.25s ease;
         white-space: nowrap;
+        -webkit-tap-highlight-color: transparent;
+        user-select: none;
     }
 
     .nav-link:hover {
-        color: #1e293b;
-        background: rgba(0, 0, 0, 0.04);
+        color: #f5f5f7;
     }
 
     .nav-active {
-        color: #4f46e5;
-        background: rgba(79, 70, 229, 0.1);
+        color: #0a0a0f;
+        background: #a3e635;
+        box-shadow: 0 0 20px rgba(163, 230, 53, 0.4);
     }
 
     .nav-active:hover {
-        background: rgba(79, 70, 229, 0.15);
+        color: #0a0a0f;
     }
 
     .nav-icon {
@@ -112,30 +117,65 @@
         font-weight: 500;
     }
 
-    /* Mobile: bottom bar */
+    /* Mobile: floating dock */
     @media (max-width: 639px) {
         .navbar {
             top: auto;
-            bottom: 0;
-            padding: 0;
+            bottom: max(0.75rem, env(safe-area-inset-bottom));
+            padding: 0 0.75rem;
         }
 
         .navbar-inner {
             width: 100%;
-            border-radius: 0;
+            max-width: 22rem;
+            border-radius: 1.25rem;
             justify-content: space-around;
-            padding: 0.5rem 0.25rem;
-            border-top: 1px solid rgba(0, 0, 0, 0.06);
-            gap: 0;
-            box-shadow: 0 -4px 24px rgba(0, 0, 0, 0.08);
-            border-bottom: none;
+            padding: 0.5rem;
+            gap: 0.25rem;
+            background: rgba(10, 10, 15, 0.85);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 12px 36px rgba(0, 0, 0, 0.5),
+                        0 0 0 1px rgba(255, 255, 255, 0.02) inset;
         }
 
         .nav-link {
             flex-direction: column;
-            gap: 0.15rem;
-            padding: 0.35rem 0.5rem;
+            gap: 0.25rem;
+            padding: 0.5rem 0.4rem;
             flex: 1;
+            border-radius: 0.875rem;
+            color: var(--text-muted);
+        }
+
+        .nav-link .nav-icon {
+            transition: transform 0.25s ease;
+        }
+
+        .nav-active,
+        .nav-active:hover,
+        .nav-active:focus,
+        .nav-active:active {
+            background: rgba(163, 230, 53, 0.1) !important;
+            color: #a3e635 !important;
+            box-shadow: inset 0 0 0 1px rgba(163, 230, 53, 0.25) !important;
+        }
+
+        .nav-active .nav-icon {
+            color: #a3e635;
+            transform: translateY(-1px);
+        }
+
+        .nav-active::after {
+            content: '';
+            position: absolute;
+            bottom: -0.5rem;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 4px;
+            height: 4px;
+            background: #a3e635;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #a3e635;
         }
 
         .nav-label {

@@ -1,15 +1,14 @@
 <script setup>
-    import { ref, onMounted, nextTick, onUnmounted } from 'vue'
-    import { gsap } from 'gsap'
+    import { ref, onMounted, onUnmounted } from 'vue';
+    import { X, ExternalLink, ArrowUpRight } from 'lucide-vue-next';
 
-    const particlesLoaded = container => {};
     const selectedProject = ref(null);
 
     const projects = [
         {
             title: "Construcciones Luna",
             image: "/logos/projects/construccionesluna.webp",
-            url: "https://construccionesluna.com.mx",
+            url: "https://construccionesluna.netlify.app/",
             description: "Sitio web personalizado para un ingeniero eléctrico independiente, especializado en diseño y construcción de instalaciones eléctricas.",
             workType: "Freelance",
             client: "Gerardo Bernal",
@@ -74,16 +73,6 @@
 
     onMounted(() => {
         document.addEventListener('keydown', handleKeydown);
-        nextTick(() => {
-            gsap.from('.project-card', {
-                y: 60,
-                opacity: 0,
-                duration: 0.8,
-                stagger: 0.2,
-                ease: 'power3.out',
-                delay: 0.2
-            });
-        });
     });
 
     onUnmounted(() => {
@@ -94,85 +83,92 @@
 
 <template>
     <div class="page-content">
-        <vue-particles id="tsparticles" @particles-loaded="particlesLoaded" url="/particles.json"/>
+        <section class="projects">
+            <div class="projects-container">
+                <div class="projects-intro reveal" style="--d: 0ms">
+                    <span class="eyebrow">Trabajo seleccionado</span>
+                    <h1 class="projects-title">Proyectos</h1>
+                    <p class="projects-sub">Algunos de los proyectos en los que he trabajado.</p>
+                </div>
 
-        <section class="pt-4 sm:pt-24 px-4 pb-8">
-            <div class="container mx-auto max-w-5xl">
-                <p class="text-slate-400 text-center mb-10 text-sm sm:text-base">Algunos de los proyectos en los que he trabajado</p>
-
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    <div v-for="(project, index) in projects" :key="index"
-                        class="project-card group cursor-pointer"
-                        @click="openProject(index)">
-                        <div class="card-inner h-full flex flex-col bg-slate-800/60 backdrop-blur-sm rounded-2xl border border-slate-700/50 overflow-hidden transition-all duration-300 group-hover:-translate-y-2 group-hover:shadow-2xl group-hover:shadow-indigo-500/10 group-hover:border-indigo-500/30">
-                            <div class="relative overflow-hidden h-40 sm:h-48 bg-slate-900/50 shrink-0">
-                                <img :src="project.image" :alt="project.title" class="w-full h-full object-contain p-6 transition-transform duration-500 group-hover:scale-105">
-                                <div class="absolute inset-0 bg-gradient-to-t from-slate-800/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-center pb-4">
-                                    <span class="text-white text-sm font-medium px-4 py-2 bg-indigo-600/80 rounded-full backdrop-blur-sm">Ver detalles</span>
-                                </div>
-                            </div>
-                            <div class="p-5 sm:p-6 flex flex-col flex-1">
-                                <h3 class="text-xl font-semibold text-white mb-2">{{ project.title }}</h3>
-                                <p class="text-slate-400 text-sm leading-relaxed mb-4 line-clamp-2">{{ project.description }}</p>
-                                <div class="flex items-center gap-2 flex-wrap mt-auto">
-                                    <span class="text-xs text-slate-500 mr-1">Stack:</span>
-                                    <div v-for="(tech, i) in project.tech.slice(0, 5)" :key="i" class="flex items-center gap-1 bg-slate-700/50 rounded-full px-2.5 py-1">
-                                        <img :src="tech.logo" :alt="tech.name" class="w-3.5 h-3.5 object-contain">
-                                        <span class="text-xs text-slate-300">{{ tech.name }}</span>
-                                    </div>
-                                    <span v-if="project.tech.length > 5" class="text-xs text-slate-500">+{{ project.tech.length - 5 }}</span>
-                                </div>
+                <div class="projects-grid">
+                    <article v-for="(project, index) in projects" :key="index"
+                             class="project-card reveal"
+                             :style="{ '--d': `${120 + index * 100}ms` }"
+                             @click="openProject(index)">
+                        <div class="project-image">
+                            <img :src="project.image" :alt="project.title" />
+                            <div class="project-overlay">
+                                <span class="project-cta">
+                                    Ver detalles
+                                    <ArrowUpRight :size="14" :stroke-width="2" />
+                                </span>
                             </div>
                         </div>
-                    </div>
+                        <div class="project-body">
+                            <h3>{{ project.title }}</h3>
+                            <p>{{ project.description }}</p>
+                            <div class="project-tech">
+                                <div v-for="(tech, i) in project.tech.slice(0, 4)" :key="i" class="tech-mini">
+                                    <img :src="tech.logo" :alt="tech.name" />
+                                    <span>{{ tech.name }}</span>
+                                </div>
+                                <span v-if="project.tech.length > 4" class="tech-more">
+                                    +{{ project.tech.length - 4 }}
+                                </span>
+                            </div>
+                        </div>
+                    </article>
                 </div>
             </div>
         </section>
 
-        <!-- Modal Overlay -->
+        <!-- Modal -->
         <Transition name="modal">
-            <div v-if="selectedProject !== null" class="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-8" @click.self="closeProject">
-                <div class="modal-backdrop absolute inset-0 bg-black/60 backdrop-blur-sm" @click="closeProject"></div>
-                <div class="modal-card relative bg-slate-800 border border-slate-700/50 shadow-2xl w-full max-w-3xl max-h-[90vh] overflow-y-auto z-10">
-                    <button @click="closeProject" class="absolute top-4 right-4 z-20 w-10 h-10 flex items-center justify-center rounded-full bg-slate-700/80 hover:bg-slate-600 text-white transition-colors cursor-pointer">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            <div v-if="selectedProject !== null" class="modal-overlay" @click.self="closeProject">
+                <div class="modal-backdrop" @click="closeProject"></div>
+                <div class="modal-card">
+                    <button @click="closeProject" class="modal-close" aria-label="Cerrar">
+                        <X :size="18" :stroke-width="2" />
                     </button>
 
-                    <div class="relative h-32 sm:h-64 bg-slate-900/50 overflow-hidden">
-                        <img :src="projects[selectedProject].image" :alt="projects[selectedProject].title" class="w-full h-full object-contain py-4">
+                    <div class="modal-image">
+                        <img :src="projects[selectedProject].image" :alt="projects[selectedProject].title" />
                     </div>
 
-                    <div class="p-6 sm:p-8">
-                        <h2 class="text-xl sm:text-2xl font-bold text-white mb-4">{{ projects[selectedProject].title }}</h2>
+                    <div class="modal-body">
+                        <h2>{{ projects[selectedProject].title }}</h2>
 
-                        <div class="flex flex-wrap gap-3 mb-6">
-                            <div v-if="projects[selectedProject].workType" class="flex items-center gap-2 text-sm">
-                                <span class="text-slate-400">Tipo:</span>
-                                <span class="text-indigo-400 font-medium">{{ projects[selectedProject].workType }}</span>
+                        <div class="modal-meta">
+                            <div v-if="projects[selectedProject].workType" class="meta-row">
+                                <span class="meta-label">Tipo</span>
+                                <span class="meta-value">{{ projects[selectedProject].workType }}</span>
                             </div>
-                            <span v-if="projects[selectedProject].workType && projects[selectedProject].client" class="text-slate-600">·</span>
-                            <div v-if="projects[selectedProject].client" class="flex items-center gap-2 text-sm">
-                                <span class="text-slate-400">Cliente:</span>
-                                <span class="text-indigo-400 font-medium">{{ projects[selectedProject].client }}</span>
+                            <div v-if="projects[selectedProject].client" class="meta-row">
+                                <span class="meta-label">Cliente</span>
+                                <span class="meta-value">{{ projects[selectedProject].client }}</span>
                             </div>
                         </div>
 
-                        <p class="text-slate-300 text-sm sm:text-base leading-relaxed mb-6">{{ projects[selectedProject].description }}</p>
+                        <p class="modal-description">{{ projects[selectedProject].description }}</p>
 
-                        <div class="mb-6">
-                            <h4 class="text-sm font-medium text-slate-400 mb-3">Tecnologías utilizadas</h4>
-                            <div class="flex flex-wrap gap-2">
-                                <div v-for="(tech, i) in projects[selectedProject].tech" :key="i" class="flex items-center gap-2 bg-slate-700/50 rounded-lg px-2 py-1">
-                                    <img :src="tech.logo" :alt="tech.name" class="w-4 h-4 object-contain">
-                                    <span class="text-sm text-slate-300">{{ tech.name }}</span>
+                        <div class="modal-section">
+                            <span class="eyebrow">Tecnologías</span>
+                            <div class="modal-tech">
+                                <div v-for="(tech, i) in projects[selectedProject].tech" :key="i" class="tech-mini">
+                                    <img :src="tech.logo" :alt="tech.name" />
+                                    <span>{{ tech.name }}</span>
                                 </div>
                             </div>
                         </div>
 
-                        <a v-if="projects[selectedProject].url" :href="projects[selectedProject].url" target="_blank" rel="noopener noreferrer"
-                            class="inline-flex items-center gap-2 bg-indigo-600 hover:bg-indigo-500 text-white px-6 py-3 rounded-xl transition-colors font-medium">
-                            Visitar sitio web
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                        <a v-if="projects[selectedProject].url"
+                           :href="projects[selectedProject].url"
+                           target="_blank"
+                           rel="noopener noreferrer"
+                           class="btn-neon">
+                            Visitar sitio
+                            <ExternalLink :size="14" :stroke-width="2" />
                         </a>
                     </div>
                 </div>
@@ -182,40 +178,333 @@
 </template>
 
 <style scoped>
-    .modal-enter-active,
-    .modal-leave-active {
-        transition: all 0.3s ease;
+    /* Entrance animation (pure CSS, runs once on mount) */
+    @keyframes revealUp {
+        from {
+            opacity: 0;
+            transform: translate3d(0, 20px, 0);
+        }
+        to {
+            opacity: 1;
+            transform: translate3d(0, 0, 0);
+        }
     }
 
-    .modal-enter-active .modal-backdrop,
-    .modal-leave-active .modal-backdrop {
+    .reveal {
+        opacity: 0;
+        animation: revealUp 0.65s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+        animation-delay: var(--d, 0ms);
+        will-change: transform, opacity;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .reveal {
+            animation: none;
+            opacity: 1;
+        }
+    }
+
+    .projects {
+        flex: 1;
+        padding: 4.5rem 1rem 5.5rem;
+        display: flex;
+        justify-content: center;
+    }
+
+    .projects-container {
+        width: 100%;
+        max-width: 64rem;
+        display: flex;
+        flex-direction: column;
+        gap: 1.75rem;
+    }
+
+    .projects-intro {
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .projects-title {
+        font-size: 1.625rem;
+        font-weight: 700;
+        color: var(--text-primary);
+        margin: 0;
+    }
+
+    .projects-sub {
+        color: var(--text-muted);
+        font-size: 0.875rem;
+        margin: 0;
+    }
+
+    .projects-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 1.25rem;
+    }
+
+    .project-card {
+        cursor: pointer;
+        background: rgba(19, 19, 26, 0.6);
+        backdrop-filter: blur(12px);
+        border: 1px solid var(--border-subtle);
+        border-radius: 1rem;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .project-card:hover {
+        transform: translateY(-4px);
+        border-color: rgba(163, 230, 53, 0.3);
+        box-shadow: 0 0 32px rgba(163, 230, 53, 0.08);
+    }
+
+    .project-image {
+        position: relative;
+        height: 11rem;
+        background: var(--bg-surface-2);
+        overflow: hidden;
+    }
+
+    .project-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        padding: 1.5rem;
+        transition: transform 0.5s ease;
+    }
+
+    .project-card:hover .project-image img {
+        transform: scale(1.05);
+    }
+
+    .project-overlay {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(to top, rgba(10, 10, 15, 0.9), transparent 60%);
+        opacity: 0;
         transition: opacity 0.3s ease;
+        display: flex;
+        align-items: flex-end;
+        justify-content: center;
+        padding-bottom: 1rem;
     }
 
-    .modal-enter-active .modal-card,
-    .modal-leave-active .modal-card {
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    .project-card:hover .project-overlay {
+        opacity: 1;
     }
 
-    .modal-enter-from .modal-backdrop,
-    .modal-leave-to .modal-backdrop {
-        opacity: 0;
+    .project-cta {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.375rem;
+        background: var(--neon-lime);
+        color: var(--bg-base);
+        padding: 0.4rem 0.875rem;
+        border-radius: 999px;
+        font-family: var(--font-mono);
+        font-size: 0.75rem;
+        font-weight: 600;
     }
 
-    .modal-enter-from .modal-card,
-    .modal-leave-to .modal-card {
-        opacity: 0;
-        transform: translateY(30px) scale(0.95);
+    .project-body {
+        padding: 1.25rem 1.25rem 1.5rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+        flex: 1;
     }
 
-    .line-clamp-2 {
+    .project-body h3 {
+        color: var(--text-primary);
+        font-size: 1.125rem;
+        font-weight: 600;
+        margin: 0;
+    }
+
+    .project-body > p {
+        color: var(--text-secondary);
+        font-size: 0.875rem;
+        line-height: 1.6;
+        margin: 0;
         display: -webkit-box;
         -webkit-line-clamp: 2;
         -webkit-box-orient: vertical;
         overflow: hidden;
     }
 
-    /* Scrollbar modal */
+    .project-tech {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.375rem;
+        margin-top: auto;
+    }
+
+    .tech-mini {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.375rem;
+        background: rgba(255, 255, 255, 0.04);
+        border: 1px solid var(--border-subtle);
+        border-radius: 999px;
+        padding: 0.25rem 0.625rem;
+    }
+
+    .tech-mini img {
+        width: 0.875rem;
+        height: 0.875rem;
+        object-fit: contain;
+    }
+
+    .tech-mini span {
+        font-family: var(--font-mono);
+        font-size: 0.6875rem;
+        color: var(--text-secondary);
+    }
+
+    .tech-more {
+        font-family: var(--font-mono);
+        font-size: 0.6875rem;
+        color: var(--text-muted);
+        align-self: center;
+    }
+
+    /* Modal */
+    .modal-overlay {
+        position: fixed;
+        inset: 0;
+        z-index: 100;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 1rem;
+    }
+
+    .modal-backdrop {
+        position: absolute;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.7);
+        backdrop-filter: blur(8px);
+    }
+
+    .modal-card {
+        position: relative;
+        z-index: 1;
+        background: var(--bg-surface);
+        border: 1px solid var(--border-soft);
+        border-radius: 1rem;
+        width: 100%;
+        max-width: 42rem;
+        max-height: 90vh;
+        overflow-y: auto;
+        box-shadow: 0 24px 64px rgba(0, 0, 0, 0.6);
+    }
+
+    .modal-close {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        z-index: 2;
+        width: 2.25rem;
+        height: 2.25rem;
+        border-radius: 50%;
+        background: rgba(0, 0, 0, 0.5);
+        border: 1px solid var(--border-subtle);
+        color: var(--text-primary);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        backdrop-filter: blur(8px);
+    }
+
+    .modal-close:hover {
+        background: var(--neon-lime);
+        color: var(--bg-base);
+        border-color: var(--neon-lime);
+    }
+
+    .modal-image {
+        height: 14rem;
+        background: var(--bg-surface-2);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 1.5rem;
+    }
+
+    .modal-image img {
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: contain;
+    }
+
+    .modal-body {
+        padding: 1.5rem 1.5rem 2rem;
+        display: flex;
+        flex-direction: column;
+        gap: 1.25rem;
+    }
+
+    .modal-body h2 {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: var(--text-primary);
+        margin: 0;
+    }
+
+    .modal-meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem 1.5rem;
+    }
+
+    .meta-row {
+        display: flex;
+        flex-direction: column;
+        gap: 0.125rem;
+    }
+
+    .meta-label {
+        font-family: var(--font-mono);
+        font-size: 0.6875rem;
+        color: var(--text-muted);
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+    }
+
+    .meta-value {
+        color: var(--neon-lime);
+        font-size: 0.875rem;
+        font-weight: 500;
+    }
+
+    .modal-description {
+        color: var(--text-secondary);
+        font-size: 0.9375rem;
+        line-height: 1.65;
+        margin: 0;
+    }
+
+    .modal-section {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+
+    .modal-tech {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.375rem;
+    }
+
+    /* Modal scrollbar */
     .modal-card::-webkit-scrollbar {
         width: 4px;
     }
@@ -225,7 +514,56 @@
     }
 
     .modal-card::-webkit-scrollbar-thumb {
-        background-color: #6366f1;
+        background-color: var(--neon-lime);
         border-radius: 3px;
+    }
+
+    /* Modal transition */
+    .modal-enter-active,
+    .modal-leave-active {
+        transition: opacity 0.3s ease;
+    }
+
+    .modal-enter-active .modal-card,
+    .modal-leave-active .modal-card {
+        transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .modal-enter-from,
+    .modal-leave-to {
+        opacity: 0;
+    }
+
+    .modal-enter-from .modal-card,
+    .modal-leave-to .modal-card {
+        opacity: 0;
+        transform: translateY(20px) scale(0.96);
+    }
+
+    @media (min-width: 640px) {
+        .projects {
+            padding: 5rem 1.5rem 2.5rem;
+        }
+
+        .projects-title {
+            font-size: 2.25rem;
+        }
+
+        .projects-grid {
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.25rem;
+        }
+
+        .project-image {
+            height: 11rem;
+        }
+
+        .modal-image {
+            height: 18rem;
+        }
+
+        .modal-body {
+            padding: 2rem 2rem 2.5rem;
+        }
     }
 </style>
