@@ -9,7 +9,7 @@
             title: "Construcciones Luna",
             image: "/logos/projects/construccionesluna.webp",
             url: "https://construccionesluna.netlify.app/",
-            description: "Sitio web personalizado para un ingeniero eléctrico independiente, especializado en diseño y construcción de instalaciones eléctricas.",
+            description: "Sitio web personalizado para un ingeniero eléctrico, especializado en diseño y construcción.",
             workType: "Freelance",
             client: "Gerardo Bernal",
             tech: [
@@ -20,24 +20,24 @@
                 { logo: "/logos/tailwindcss.webp", name: "Tailwind CSS" }
             ]
         },
-        {
-            title: "Simulador SkyCapital",
-            image: "/logos/projects/simulacion.webp",
-            url: "https://cotiza.skycapital.mx/simulador",
-            description: "Plataforma de simulación de inversiones con cálculo de rendimientos y generación de reportes PDF.",
-            workType: "Netlancers (empresa anterior)",
-            client: "SkyCapital (cliente de Netlancers)",
-            tech: [
-                { logo: "/logos/html.webp", name: "HTML" },
-                { logo: "/logos/css.webp", name: "CSS" },
-                { logo: "/logos/javascript.webp", name: "JavaScript" },
-                { logo: "/logos/php.webp", name: "PHP" },
-                { logo: "/logos/mysql.webp", name: "MySQL" },
-                { logo: "/logos/bootstrap.webp", name: "Bootstrap" },
-                { logo: "/logos/laravel.webp", name: "Laravel" },
-                { logo: "/logos/livewire.webp", name: "Livewire" }
-            ]
-        },
+        // {
+        //     title: "Simulador SkyCapital",
+        //     image: "/logos/projects/simulacion.webp",
+        //     url: "https://cotiza.skycapital.mx/simulador",
+        //     description: "Plataforma de simulación de inversiones con cálculo de rendimientos y generación de reportes PDF.",
+        //     workType: "Netlancers (empresa anterior)",
+        //     client: "SkyCapital (cliente de Netlancers)",
+        //     tech: [
+        //         { logo: "/logos/html.webp", name: "HTML" },
+        //         { logo: "/logos/css.webp", name: "CSS" },
+        //         { logo: "/logos/javascript.webp", name: "JavaScript" },
+        //         { logo: "/logos/php.webp", name: "PHP" },
+        //         { logo: "/logos/mysql.webp", name: "MySQL" },
+        //         { logo: "/logos/bootstrap.webp", name: "Bootstrap" },
+        //         { logo: "/logos/laravel.webp", name: "Laravel" },
+        //         { logo: "/logos/livewire.webp", name: "Livewire" }
+        //     ]
+        // },
         {
             title: "Tendejón Azael",
             image: "/logos/projects/tendejonazael.webp",
@@ -213,6 +213,21 @@
         justify-content: center;
     }
 
+    @media (max-width: 639px) {
+        .projects {
+            padding-top: 1.5rem;
+            padding-bottom: 4.5rem;
+        }
+
+        .projects-title {
+            font-size: 1.35rem;
+        }
+
+        .projects-sub {
+            font-size: 0.8125rem;
+        }
+    }
+
     .projects-container {
         width: 100%;
         max-width: 64rem;
@@ -226,7 +241,7 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        gap: 0.5rem;
+        gap: 0.2rem;
     }
 
     .projects-title {

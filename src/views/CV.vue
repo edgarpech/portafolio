@@ -49,6 +49,22 @@
         justify-content: center;
     }
 
+    @media (max-width: 639px) {
+        .cv {
+            padding-top: 1.5rem;
+            padding-bottom: 4.5rem;
+        }
+
+        .cv-title {
+            font-size: 1.35rem;
+        }
+
+        .cv-frame iframe {
+            height: 44vh;
+            min-height: 280px;
+        }
+    }
+
     .cv-container {
         width: 100%;
         max-width: 56rem;
@@ -97,8 +113,8 @@
     .cv-frame iframe {
         display: block;
         width: 100%;
-        height: 65vh;
-        min-height: 480px;
+        height: 52vh;
+        min-height: 360px;
         border: none;
         background: var(--bg-surface);
     }

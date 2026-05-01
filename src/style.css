@@ -5,29 +5,32 @@
 ============================================ */
 :root {
     /* Colors */
-    --bg-base: #0a0a0f;
-    --bg-surface: #13131a;
-    --bg-surface-2: #1a1a24;
+    --bg-base: #0a0a0a;
+    --bg-surface: #141416;
+    --bg-surface-2: #1c1c20;
     --border-subtle: rgba(255, 255, 255, 0.06);
     --border-soft: rgba(255, 255, 255, 0.1);
 
-    --text-primary: #f5f5f7;
+    --text-primary: #fafafa;
     --text-secondary: #a1a1aa;
     --text-muted: #71717a;
 
-    /* Neon accents */
+    /* Single neon accent (lime) */
     --neon-lime: #a3e635;
-    --neon-lime-soft: rgba(163, 230, 53, 0.15);
-    --neon-fuchsia: #e879f9;
-    --neon-fuchsia-soft: rgba(232, 121, 249, 0.15);
+    --neon-lime-soft: rgba(163, 230, 53, 0.12);
+
+    /* Legacy aliases — fuchsia tokens now resolve to neutral white
+       so leftover usages become monochrome without breaking. */
+    --neon-fuchsia: #fafafa;
+    --neon-fuchsia-soft: rgba(255, 255, 255, 0.08);
 
     /* Typography */
     --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
     --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
 
     /* Shadows */
-    --shadow-glow-lime: 0 0 30px rgba(163, 230, 53, 0.2);
-    --shadow-glow-fuchsia: 0 0 30px rgba(232, 121, 249, 0.2);
+    --shadow-glow-lime: 0 0 24px rgba(163, 230, 53, 0.18);
+    --shadow-glow-fuchsia: 0 0 24px rgba(255, 255, 255, 0.08);
 }
 
 /* ============================================
@@ -116,7 +119,7 @@ html, body {
 }
 
 .text-gradient {
-    background: linear-gradient(135deg, var(--neon-lime) 0%, var(--neon-fuchsia) 100%);
+    background: linear-gradient(135deg, var(--neon-lime) 0%, var(--text-primary) 100%);
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;

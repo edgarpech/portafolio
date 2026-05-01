@@ -7,7 +7,12 @@ import 'aos/dist/aos.css';
 
 const app = createApp(App);
 app.use(router);
-app.mount('#app');
+
+// Wait for router to resolve current route before first paint
+// to avoid the navbar briefly highlighting "Inicio" on reload.
+router.isReady().then(() => {
+    app.mount('#app');
+});
 
 AOS.init({
     duration: 700,

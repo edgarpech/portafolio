@@ -16,16 +16,16 @@
         pointer-events: none;
         overflow: hidden;
         background:
-            radial-gradient(ellipse at top, rgba(163, 230, 53, 0.04), transparent 60%),
-            radial-gradient(ellipse at bottom right, rgba(232, 121, 249, 0.04), transparent 60%),
-            #0a0a0f;
+            radial-gradient(ellipse at top, rgba(163, 230, 53, 0.025), transparent 60%),
+            radial-gradient(ellipse at bottom right, rgba(255, 255, 255, 0.015), transparent 60%),
+            #0a0a0a;
     }
 
     .aurora-blob {
         position: absolute;
         border-radius: 50%;
-        filter: blur(80px);
-        opacity: 0.35;
+        filter: blur(90px);
+        opacity: 0.18;
         will-change: transform;
     }
 
@@ -36,7 +36,7 @@
         height: 50vw;
         max-width: 600px;
         max-height: 600px;
-        background: radial-gradient(circle, rgba(163, 230, 53, 0.5), transparent 70%);
+        background: radial-gradient(circle, rgba(163, 230, 53, 0.35), transparent 70%);
         animation: drift-1 22s ease-in-out infinite;
     }
 
@@ -47,7 +47,7 @@
         height: 55vw;
         max-width: 700px;
         max-height: 700px;
-        background: radial-gradient(circle, rgba(232, 121, 249, 0.45), transparent 70%);
+        background: radial-gradient(circle, rgba(255, 255, 255, 0.12), transparent 70%);
         animation: drift-2 26s ease-in-out infinite;
     }
 
@@ -58,7 +58,7 @@
         height: 35vw;
         max-width: 500px;
         max-height: 500px;
-        background: radial-gradient(circle, rgba(99, 102, 241, 0.3), transparent 70%);
+        background: radial-gradient(circle, rgba(255, 255, 255, 0.06), transparent 70%);
         animation: drift-3 30s ease-in-out infinite;
     }
 

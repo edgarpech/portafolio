@@ -8,31 +8,38 @@
 <template>
     <Aurora />
     <Navbar />
-    <main class="app-content">
-        <RouterView v-slot="{ Component, route }">
-            <transition name="page" mode="out-in">
-                <component :is="Component" :key="route.path" />
-            </transition>
-        </RouterView>
+    <div class="app-shell">
+        <main class="scroll-area">
+            <RouterView v-slot="{ Component, route }">
+                <transition name="page" mode="out-in">
+                    <component :is="Component" :key="route.path" />
+                </transition>
+            </RouterView>
+        </main>
         <Footer />
-    </main>
+    </div>
 </template>
 
 <style>
-    .app-content {
-        min-height: 100dvh;
-        display: flex;
-        flex-direction: column;
-        padding-bottom: 4.5rem;
+    .app-shell {
         position: relative;
         z-index: 1;
+        height: 100dvh;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
     }
 
-    @media (min-width: 640px) {
-        .app-content {
-            padding-bottom: 0;
-        }
+    .scroll-area {
+        flex: 1 1 0;
+        min-height: 0;
+        overflow-y: auto;
+        overflow-x: hidden;
+        scroll-behavior: smooth;
     }
+
+    /* Mobile: nav becomes a floating FAB (bottom-right). No top padding needed.
+       Footer stays at the bottom; FAB is positioned above it. */
 
     /* Page transitions */
     .page-enter-active,

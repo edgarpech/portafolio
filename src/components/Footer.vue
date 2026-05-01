@@ -27,19 +27,23 @@
 
 <style scoped>
     .site-footer {
+        flex-shrink: 0;
         border-top: 1px solid var(--border-subtle);
-        padding: 2rem 1.5rem;
-        margin-top: 4rem;
+        background: rgba(10, 10, 15, 0.7);
+        backdrop-filter: blur(16px) saturate(160%);
+        -webkit-backdrop-filter: blur(16px) saturate(160%);
+        padding: 0.65rem 1rem;
     }
 
     .footer-inner {
         max-width: 64rem;
         margin: 0 auto;
         display: flex;
-        flex-direction: column;
+        flex-direction: row;
         align-items: center;
-        gap: 1rem;
-        text-align: center;
+        justify-content: space-between;
+        gap: 0.75rem;
+        text-align: left;
     }
 
     .footer-brand {
@@ -72,8 +76,8 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        width: 36px;
-        height: 36px;
+        width: 30px;
+        height: 30px;
         border-radius: 0.5rem;
         color: var(--text-secondary);
         border: 1px solid var(--border-subtle);
@@ -88,8 +92,19 @@
 
     .footer-copy {
         color: var(--text-muted);
-        font-size: 0.75rem;
+        font-size: 0.7rem;
         font-family: var(--font-mono);
+        margin: 0;
+    }
+
+    @media (max-width: 539px) {
+        .footer-tag,
+        .footer-copy {
+            display: none;
+        }
+        .footer-inner {
+            justify-content: space-between;
+        }
     }
 
     @media (min-width: 640px) {

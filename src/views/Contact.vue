@@ -1,13 +1,108 @@
 <script setup>
-    import { onMounted } from 'vue';
+    import { ref, reactive, onMounted, nextTick } from 'vue';
     import { gsap } from 'gsap';
-    import { MapPin, Mail, Phone, Github, Linkedin, Twitter, Instagram, Send } from 'lucide-vue-next';
+    import { TextPlugin } from 'gsap/TextPlugin';
+    import { MapPin, Mail, Phone, Github, Linkedin, Twitter, Instagram, Check, AlertTriangle, RotateCcw } from 'lucide-vue-next';
+
+    gsap.registerPlugin(TextPlugin);
 
     onMounted(() => {
         gsap.from('.contact-fade', {
             y: 24, opacity: 0, duration: 0.7, stagger: 0.1, ease: 'power3.out', delay: 0.2
         });
     });
+
+    const form = reactive({ firstName: '', lastName: '', email: '', message: '' });
+    const status = ref('idle'); // idle | sending | sent | error
+    const errorMsg = ref('');
+    const btnTextRef = ref(null);
+
+    const FORMSPREE_ERRORS = {
+        "Can't send an empty form": 'El formulario no puede estar vacío.',
+        'Please include an email address': 'Por favor incluye un correo válido.',
+        'This field is required': 'Este campo es obligatorio.',
+        'Please include a valid email address': 'Por favor incluye un correo válido.',
+    };
+
+    const translateError = (msg) => {
+        if (!msg) return 'Error al enviar. Intenta de nuevo.';
+        for (const [en, es] of Object.entries(FORMSPREE_ERRORS)) {
+            if (msg.includes(en)) return es;
+        }
+        return 'Error al enviar. Intenta de nuevo.';
+    };
+
+    const handleSubmit = async () => {
+        if (status.value === 'sending') return;
+        status.value = 'sending';
+
+        // ── Text morph animation (GSAP TextPlugin) ───────────────────
+        const textTL = gsap.timeline();
+        if (btnTextRef.value) {
+            textTL
+                .to(btnTextRef.value, {
+                    duration: 0.9,
+                    text: { value: 'Enviando...', type: 'diff' },
+                    ease: 'sine.in'
+                })
+                .to(btnTextRef.value, {
+                    duration: 0.55,
+                    text: { value: 'Enviando', type: 'diff' },
+                    ease: 'sine.inOut',
+                    repeat: -1,
+                    yoyo: true
+                });
+        }
+
+        // ── Delay so the animation is visible before the request fires ─
+        await new Promise(resolve => setTimeout(resolve, 3500));
+
+        // ── Submit to Formspree via AJAX (no redirect) ───────────────
+        try {
+            const data = new FormData();
+            data.append('firstName', form.firstName);
+            data.append('lastName', form.lastName);
+            data.append('email', form.email);
+            data.append('message', form.message);
+
+            const res = await fetch('https://formspree.io/f/mkgzjeoy', {
+                method: 'POST',
+                headers: { 'Accept': 'application/json' },
+                body: data
+            });
+
+            textTL.kill();
+
+            if (res.ok) {
+                if (btnTextRef.value) {
+                    await gsap.to(btnTextRef.value, { duration: 0.4, text: '¡Enviado!', ease: 'none' });
+                }
+                status.value = 'sent';
+                form.firstName = '';
+                form.lastName = '';
+                form.email = '';
+                form.message = '';
+            } else {
+                const json = await res.json().catch(() => ({}));
+                errorMsg.value = translateError(json.error);
+                if (btnTextRef.value) btnTextRef.value.textContent = 'Reintentar';
+                status.value = 'error';
+            }
+        } catch {
+            textTL.kill();
+            errorMsg.value = 'Sin conexión. Intenta de nuevo.';
+            if (btnTextRef.value) btnTextRef.value.textContent = 'Reintentar';
+            status.value = 'error';
+        }
+    };
+
+    const retry = () => {
+        status.value = 'idle';
+        errorMsg.value = '';
+        nextTick(() => {
+            if (btnTextRef.value) btnTextRef.value.textContent = 'Enviar mensaje';
+        });
+    };
 </script>
 
 <template>
@@ -75,28 +170,50 @@
                     <!-- Form -->
                     <div class="contact-form-wrapper contact-fade">
                         <h3>Envíame un mensaje</h3>
-                        <form action="https://formspree.io/f/mkgzjeoy" method="POST" class="contact-form">
+
+                        <!-- ── Success state ── -->
+                        <div v-if="status === 'sent'" class="form-success">
+                            <div class="success-icon">
+                                <Check :size="28" :stroke-width="2.5" />
+                            </div>
+                            <p class="success-title">¡Mensaje enviado!</p>
+                            <p class="success-sub">Te responderé lo antes posible.</p>
+                            <button type="button" class="btn-ghost retry-btn" @click="retry">
+                                <RotateCcw :size="13" :stroke-width="2" />
+                                Enviar otro
+                            </button>
+                        </div>
+
+                        <!-- ── Form ── -->
+                        <form v-else class="contact-form" @submit.prevent="handleSubmit" novalidate>
                             <div class="form-row">
                                 <div class="form-field">
                                     <label for="firstName">Nombre</label>
-                                    <input name="firstName" type="text" id="firstName" required />
+                                    <input v-model="form.firstName" name="firstName" type="text" id="firstName" required :disabled="status === 'sending'" />
                                 </div>
                                 <div class="form-field">
                                     <label for="lastName">Apellido</label>
-                                    <input name="lastName" type="text" id="lastName" required />
+                                    <input v-model="form.lastName" name="lastName" type="text" id="lastName" required :disabled="status === 'sending'" />
                                 </div>
                             </div>
                             <div class="form-field">
                                 <label for="email">Correo</label>
-                                <input name="email" type="email" id="email" autocomplete="email" required />
+                                <input v-model="form.email" name="email" type="email" id="email" autocomplete="email" required :disabled="status === 'sending'" />
                             </div>
                             <div class="form-field">
                                 <label for="message">Mensaje</label>
-                                <textarea name="message" id="message" rows="4" required></textarea>
+                                <textarea v-model="form.message" name="message" id="message" rows="4" required :disabled="status === 'sending'"></textarea>
                             </div>
-                            <button type="submit" class="btn-neon submit-btn">
-                                Enviar mensaje
-                                <Send :size="14" :stroke-width="2" />
+
+                            <!-- Error banner -->
+                            <div v-if="status === 'error'" class="form-error">
+                                <AlertTriangle :size="14" :stroke-width="2" />
+                                {{ errorMsg }}
+                            </div>
+
+                            <button type="submit" class="btn-neon submit-btn"
+                                :disabled="status === 'sending'">
+                                <span ref="btnTextRef" class="btn-text">Enviar mensaje</span>
                             </button>
                         </form>
                     </div>
@@ -114,6 +231,21 @@
         justify-content: center;
     }
 
+    @media (max-width: 639px) {
+        .contact {
+            padding-top: 1.5rem;
+            padding-bottom: 4.5rem;
+        }
+
+        .contact-title {
+            font-size: 1.35rem;
+        }
+
+        .contact-sub {
+            font-size: 0.8125rem;
+        }
+    }
+
     .contact-container {
         width: 100%;
         max-width: 64rem;
@@ -127,7 +259,7 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        gap: 0.5rem;
+        gap: 0.2rem;
     }
 
     .contact-title {
@@ -325,6 +457,79 @@
         margin-top: 0.5rem;
         width: 100%;
         justify-content: center;
+        min-width: 11rem;
+        height: 2.75rem;
+        white-space: nowrap;
+        overflow: hidden;
+        transition: background 0.3s ease, border-color 0.3s ease, transform 0.2s ease;
+    }
+
+    .btn-text {
+        display: inline-block;
+        width: 100%;
+        text-align: center;
+        pointer-events: none;
+    }
+
+    /* ── Success state ── */
+    .form-success {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 2.5rem 1rem;
+        text-align: center;
+    }
+
+    .success-icon {
+        width: 3.5rem;
+        height: 3.5rem;
+        border-radius: 50%;
+        background: var(--neon-lime-soft);
+        border: 2px solid var(--neon-lime);
+        color: var(--neon-lime);
+        display: grid;
+        place-items: center;
+        animation: successPop 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+    }
+
+    @keyframes successPop {
+        from { transform: scale(0.4); opacity: 0; }
+        to   { transform: scale(1);   opacity: 1; }
+    }
+
+    .success-title {
+        font-weight: 700;
+        font-size: 1.125rem;
+        color: var(--text-primary);
+        margin: 0;
+    }
+
+    .success-sub {
+        font-size: 0.8125rem;
+        color: var(--text-muted);
+        margin: 0;
+    }
+
+    .retry-btn {
+        font-size: 0.8125rem;
+        padding: 0.5rem 1rem;
+        min-height: 0;
+        margin-top: 0.5rem;
+    }
+
+    /* ── Error banner ── */
+    .form-error {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.5rem 0.75rem;
+        border-radius: 0.5rem;
+        background: rgba(239, 68, 68, 0.08);
+        border: 1px solid rgba(239, 68, 68, 0.25);
+        color: #f87171;
+        font-size: 0.8125rem;
+        font-family: var(--font-mono);
     }
 
     @media (min-width: 640px) {
