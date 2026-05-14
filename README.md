@@ -1,5 +1,28 @@
-# Vue 3 + Vite
+# Portafolio — Vue 3 + Vite
 
-This template should help get you started developing with Vue 3 in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+Este proyecto usa **pnpm** como gestor de paquetes (npm y yarn están bloqueados por el script `preinstall` con `only-allow pnpm`).
 
-Learn more about IDE Support for Vue in the [Vue Docs Scaling up Guide](https://vuejs.org/guide/scaling-up/tooling.html#ide-support).
+## Requisitos
+- Node.js >= 18
+- pnpm >= 9
+
+Instalar pnpm (una sola vez):
+
+```bash
+# Opción recomendada (Corepack viene con Node)
+corepack enable
+corepack prepare pnpm@9.12.3 --activate
+
+# O alternativamente
+npm i -g pnpm
+```
+
+## Comandos
+
+```bash
+pnpm install      # instalar dependencias
+pnpm dev          # servidor de desarrollo
+pnpm build        # build de producción
+pnpm preview      # previsualizar build
+```
+
